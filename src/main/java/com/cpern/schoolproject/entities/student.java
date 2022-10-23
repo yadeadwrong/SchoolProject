@@ -1,9 +1,9 @@
 package com.cpern.schoolproject.entities;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+import javax.persistence.*;
+import java.util.List;
 
 @Entity
 public class student {
@@ -13,12 +13,15 @@ public class student {
     String Nome;
     String Cognome;
     int annoDiNascita;
-    String classe;
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "classe_id")
+    classroom classe;
 
     public student() {
     }
 
-    public student(long id, String nome, String cognome, int annoDiNascita, String classe) {
+    public student(long id, String nome, String cognome, int annoDiNascita, classroom classe) {
         this.id = id;
         Nome = nome;
         Cognome = cognome;
@@ -58,11 +61,11 @@ public class student {
         this.annoDiNascita = annoDiNascita;
     }
 
-    public String getClasse() {
+    public classroom getClasse() {
         return classe;
     }
 
-    public void setClasse(String classe) {
+    public void setClasse(classroom classe) {
         this.classe = classe;
     }
 }
